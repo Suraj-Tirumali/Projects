@@ -1,0 +1,142 @@
+%%%%AM Modulation
+
+clc;
+clear all;
+close all;
+fc=500000;
+fs=1000000;
+f=10000;
+t=0:(1/fs):((2/f)-(1/fs));
+
+M=  cos(2*pi*f*t);     %Message signal
+subplot(2,2,1);
+plot(t,M);
+title('Message signal');
+
+C=  cos(2*pi*fc*t);     %Carrier signal
+subplot(2,2,2);
+plot(t,C);
+title('Carrier signal');
+
+
+%Under modulation
+Ac=2;
+Am=1.2;
+m=Am/Ac;
+S1=Ac*(1+m*M).*C; %%%%%S=AC*(1+m*cos(2pifmt))cos(2pifct)
+subplot(2,2,3);
+plot(t,S1)
+title('Under Modulated signal');
+%Perfect modulation
+Ac=2;
+Am=2;
+m=Am/Ac;
+S2=Ac*(1+m*M).*C;
+subplot(2,2,4);
+plot(t,S2)
+title('Perfect Modulated signal');
+%Over modulation
+Ac=2;
+Am=10;
+m=Am/Ac;
+S3=Ac*(1+m*M).*C;
+figure;
+subplot(2,2,1);
+plot(t,S3)
+title('Over Modulated signal');
+
+%Demodulation
+%demod=ammod(s,fc,fs);
+
+
+
+%%%%%%   DSB-SC Generation   %%%%%%%%%%%%
+clc;
+clear all;
+close all;
+
+fc=100;
+fm=10;
+am=0.4;
+ac=0.8;
+t=-0.1:0.001:0.1;
+
+m=am*cos(2*pi*fm*t);     %Message signal
+subplot(2,2,1);
+plot(t,m);
+title('Message signal');
+
+c=ac*cos(2*pi*fc*t);     %Carrier signal
+subplot(2,2,2);
+plot(t,c);
+title('Carrier  signal');
+
+S=m.*c;             %DSB-SC signal
+subplot(2,2,3);
+plot(t,S);
+title('DSB-SC  signal');
+
+
+
+
+%%%%%%%%%%%%%% PAM Signal %%%%%%%%%%%%%
+
+%%% msg carrier ---------------PAM = m*c --------------> double
+%%%% both positive and negative halfs  ---------single polarity---------->positive polarity
+
+clc;
+clear all;
+close all;
+a= input('enter the amplitude =');
+fm= input('enter the frequency =');
+t=0:0.005:0.5;
+x1=stem(t);
+subplot(2,2,1);
+stem(x1);
+title('Impulse signal');
+
+M=a*sin(2*pi*fm*t);
+subplot(2,2,2);
+plot(t,M);
+title('Message signal');
+
+y=x1.*M;
+subplot(2,2,3);
+stem(t,y);
+title('Double polarity PAM');
+
+y1=y+35;
+subplot(2,2,4);
+stem(t,y1);
+title('single polarity PAM');
+
+
+
+%%%%%%%%%%%% FM generation %%%%%%%%%%%%%%%%%%%
+%%  FM----------- MSG CARRIER-------FC FM T AC AM   BETA
+clc;
+clear all;
+close all;
+
+fc=100;
+fm=10;
+t= -0.1:0.000001:0.1;
+m=8;   %%%%%%%%% Modulation index of FM >>1-------->WBFM
+Am=2;
+Ac=5;
+
+M = Am*cos(2*pi*fm*t);  %Message signal
+subplot(2,2,1);
+plot(t,M);
+title('Message signal');
+
+C=  Ac*cos(2*pi*fc*t);  %Carrier signal
+subplot(2,2,2);
+plot(t,C);
+title('Carrier signal');
+
+S=Ac*cos(2*pi*fc*t+m*sin(2*pi*fm*t));
+subplot(2,2,3);
+plot(t,S);
+title('FM signal');
+
